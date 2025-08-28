@@ -1,0 +1,245 @@
+Project Overview
+
+The goal of the project is to build an automated face recognition attendance system that:
+
+Automatically marks attendance based on face recognition during class hours.
+
+Provides interfaces for both students and teachers to manage and interact with the system.
+
+Stores attendance data in a Supabase database.
+
+Ensures secure role-based login for students and teachers.
+
+1. User Roles:
+
+The system should support two types of users:
+
+Students: Register their faces for recognition and view attendance status.
+
+Teachers: View, filter, and manage student attendance.
+
+2. System Components & Features
+A. Student Registration (Face Recognition System)
+
+Features:
+
+Face Registration Interface (UI):
+
+Students must register their face through the webcam.
+
+Students will be prompted to take multiple images for better recognition accuracy (e.g., 5-10 images).
+
+The registration form will ask for:
+
+Student Name
+
+Capture face images through the webcam
+
+Each student should be associated with an email for login.
+
+Face Capture for Recognition:
+
+Use a Webcam API to capture the student’s face.
+
+The system will store the face encodings (not images) for future recognition, using a library like face-api.js or OpenCV.
+
+Each image is captured under different angles, lighting, etc., to improve accuracy.
+
+Database Setup:
+
+Store the student name and encoded face data in Supabase.
+
+Store student data such as email, name, role (student), and face encoding.
+
+Steps to Implement:
+
+Create a student registration form.
+
+Use JavaScript (e.g., face-api.js) to capture and register faces.
+
+Store student information (name, face encoding, email) in Supabase.
+
+B. Login System (for both students and teachers)
+
+Features:
+
+Student Login:
+
+Students log in with their email and password.
+
+The system verifies the credentials and matches the student’s face encoding.
+
+If the face is recognized during login, access is granted to the student dashboard.
+
+Teacher Login:
+
+Teachers log in using their email and password.
+
+Once logged in, teachers will be directed to the teacher dashboard.
+
+Role-based Restriction:
+
+The system ensures that students cannot log in as teachers and vice versa.
+
+The system checks the role (student or teacher) during login and denies access if the role does not match.
+
+Steps to Implement:
+
+Use Supabase Authentication to handle the login.
+
+Store and verify role in the Supabase database to differentiate between students and teachers.
+
+C. Face Recognition for Attendance Tracking
+
+Features:
+
+Face Recognition for Attendance:
+
+The camera in the classroom will be used to detect faces of students present.
+
+Once the class begins (e.g., starting at 9:30 AM), the system will take attendance every hour.
+
+The system will recognize students’ faces and mark them present or absent based on the face recognition result.
+
+Automatic Attendance Marking:
+
+The system will compare faces using the face encodings stored in the database.
+
+When a face is recognized, the timestamp and student’s name are stored in the attendance table in Supabase.
+
+Real-time Updates:
+
+The teacher dashboard should update in real-time to reflect students' attendance status as the recognition system processes new faces.
+
+Steps to Implement:
+
+Use face-api.js or OpenCV to capture faces from the webcam.
+
+Match captured faces with the face encodings stored in the Supabase database.
+
+Store attendance data (student name, time of recognition, status) in the attendance table in Supabase.
+
+D. Teacher Dashboard (UI)
+
+Features:
+
+Attendance Viewing:
+
+The teacher should have a dashboard that allows them to view the attendance data.
+
+The attendance table should display:
+
+Student Name
+
+Time of Attendance
+
+Status (Present/Absent)
+
+Actions (e.g., marking attendance manually, filtering by date, etc.)
+
+Manual Attendance Update:
+
+The teacher should be able to manually toggle a student’s status (present/absent) in case of errors or missed recognition.
+
+Attendance Filtering:
+
+The teacher should be able to filter the attendance by date, time, or student name.
+
+A date picker allows the teacher to filter the records by date.
+
+Real-time Attendance Updates:
+
+The teacher dashboard should update automatically when new attendance is recorded.
+
+Steps to Implement:
+
+Create a teacher login page and a teacher dashboard using HTML, CSS, and JavaScript.
+
+Implement functionality to fetch attendance records from Supabase.
+
+Allow teachers to filter attendance records by date and student.
+
+Use Supabase Realtime to listen for new attendance records and update the dashboard.
+
+E. Backend (Supabase Database)
+
+Features:
+
+Users Table:
+
+Store user data for both students and teachers.
+
+Fields: id, name, email, role (student or teacher), face_encoding.
+
+Attendance Table:
+
+Store attendance records.
+
+Fields: id, student_id, timestamp, status (present/absent).
+
+Realtime Updates:
+
+Use Supabase Realtime to automatically update the teacher dashboard when new attendance is taken.
+
+Steps to Implement:
+
+Set up two tables in Supabase: users (for student/teacher data) and attendance (for tracking attendance).
+
+Use Supabase client to interact with the database for reading and writing records.
+
+3. Final Application Flow:
+A. Student Registration:
+
+Student registers by entering their name and taking multiple photos.
+
+Photos are processed into face encodings and stored in the Supabase database.
+
+The student logs in with their email and password.
+
+Once the face is recognized, they gain access to their dashboard.
+
+B. Teacher Dashboard:
+
+Teacher logs in with their email and password.
+
+Once logged in, the teacher is redirected to the teacher dashboard where they can:
+
+View attendance records.
+
+Filter attendance by date or student name.
+
+Manually update attendance in case of discrepancies.
+
+C. Attendance Process:
+
+Face recognition system takes attendance automatically every hour from 9:30 AM to 12:30 PM.
+
+The system matches faces with stored face encodings in Supabase and marks the student as present or absent.
+
+Attendance is recorded with a timestamp and is stored in the attendance table in Supabase.
+
+The teacher dashboard shows updated attendance in real-time.
+
+Technologies Used:
+
+Frontend:
+
+HTML, CSS, JavaScript (for the student and teacher UI).
+
+face-api.js or OpenCV (for face detection and recognition).
+
+Supabase Realtime (for real-time updates on the teacher dashboard).
+
+Backend:
+
+Supabase (for authentication, database management, and realtime functionality).
+
+Security:
+
+Role-based access control to restrict students from logging in as teachers.
+
+JWT tokens for secure user authentication.
+
+Conclusion
+
+This project involves both the student and teacher side and utilizes face recognition technology for attendance tracking. The Supabase database stores the user and attendance data, while real-time updates ensure that teachers can always view the latest attendance information. The system handles student registration, login, real-time attendance tracking, and manual attendance modification by the teacher, ensuring ease of use for both students and teachers.
